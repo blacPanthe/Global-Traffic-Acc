@@ -1,84 +1,79 @@
-# 🌍 Global Traffic Accidents Analysis
+# Global Traffic Accidents Analysis
 
-This project focuses on analyzing global traffic accident data to uncover patterns, trends, and insights that can help reduce casualties and improve road safety. Using data science techniques such as exploratory data analysis (EDA), feature engineering, and machine learning models like Random Forest, this project aims to predict casualty severity and understand the key factors contributing to accidents globally.
+**Authors:** Atharva Bakde & Samarth Naik &nbsp;|&nbsp; **Date:** April 2025
 
-## 📊 Project Goals
+Traffic accidents remain one of the leading causes of preventable death globally. This project analyzes worldwide accident records to uncover patterns in timing, weather, and road conditions — then builds machine learning models to predict whether a reported accident resulted in casualties.
 
-* Perform EDA to understand accident distribution, patterns, and severity.
-* Preprocess and clean the dataset.
-* Engineer meaningful features for modeling.
-* Train and evaluate machine learning models to predict **Casualty Severity**.
-* Visualize insights using plots and maps for better interpretation.
+---
 
-## 🛠️ Technologies Used
-
-* **Python**
-* **Pandas, NumPy** – Data manipulation
-* **Matplotlib, Seaborn** – Visualization
-* **Scikit-learn** – Machine learning (Random Forest, train-test split, accuracy metrics)
-* **Jupyter Notebook** – Interactive analysis and documentation
-
-## 📁 Dataset
+## Dataset
 
 The dataset contains global traffic accident records including:
 
-* Date and Time of accident
-* Location details
-* Number of casualties
-* Weather and road conditions
-* Vehicle type, driver info
-* Severity of the accident
+| Feature | Description |
+|---|---|
+| Date / Time | Timestamp of the accident |
+| Location | Geographic coordinates + location name |
+| Casualties | Number of people injured or killed |
+| Weather Condition | Fog, rain, clear, hail, etc. |
+| Road Condition | Wet, dry, icy, etc. |
+| Vehicles Involved | Count of vehicles in the accident |
+| Cause | Driver error, mechanical failure, drunk driving, etc. |
 
-## 🧠 Model
+---
 
-We use a **Random Forest Classifier** to predict the **Casualty Severity** based on multiple features including location, conditions, and involved parties. The model's performance is evaluated using accuracy and classification reports.
+## Workflow
 
-## 🔍 Key Findings
+1. **Data Quality Checks** — missing values, duplicates, unique value analysis
+2. **Feature Engineering** — time decomposition (hour, day, month, week), one-hot encoding, IQR outlier removal
+3. **Preprocessing** — StandardScaler, SMOTE for class imbalance, 70/15/15 stratified split
+4. **Modeling** — Random Forest Classifier & Logistic Regression
+5. **Evaluation** — Accuracy, Precision, Recall, F1-Score, Confusion Matrix
 
-* Certain road types and weather conditions are strongly associated with higher accident severity.
-* The model shows promising results in predicting accident severity with reasonable accuracy.
-* Visualizations highlight accident hotspots and factors contributing to casualty risk.
+---
 
-## 📈 Visuals
+## Results
 
-Visualizations include:
+| Model | Train Accuracy | Validation Accuracy | Test Accuracy |
+|---|---|---|---|
+| **Random Forest** | **95.0%** | **87.5%** | **86.7%** |
+| Logistic Regression | 52.2% | 51.5% | 51.5% |
 
-* Correlation heatmaps
-* Bar and pie charts
-* Feature importance from Random Forest
-* Severity distribution
+**Random Forest** is the recommended model. Logistic Regression underperforms due to the non-linear interactions between time, weather, and road features.
 
-## 🚀 How to Run
+> **Note on class imbalance:** ~90% of records involve casualties, so threshold tuning is recommended to improve recall on no-casualty cases.
+
+---
+
+## Key Findings
+
+- **Time-based features dominate** — week of year (18.9%), hour (16.6%), day of week (11.4%), and month (10.3%) are the top four predictors
+- **Vehicles involved** is the strongest non-temporal feature (9.4% importance)
+- **Weather and cause features** (fog, drunk driving, mechanical failure) each contribute ~2–3%, confirming real-world intuitions about accident severity
+- Logistic Regression's near-chance accuracy (51.5%) confirms that linear models are insufficient for this dataset
+
+---
+
+## Setup
+
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn requests
+```
 
 1. Clone the repository
+   ```bash
+   git clone https://github.com/blacPanthe/Global-Traffic-Acc.git
+   cd Global-Traffic-Acc
+   ```
+2. Open `Global_Traffic_Accidents.ipynb` in Jupyter or Google Colab
+3. Run all cells — the dataset loads automatically from Google Drive
 
-```bash
-git clone https://github.com/yourusername/global-traffic-accidents.git
-cd global-traffic-accidents
-```
+---
 
-2. Install required packages
+## Future Work
 
-```bash
-pip install -r requirements.txt
-```
-
-3. Open the Jupyter Notebook
-
-```bash
-jupyter notebook Global_Traffic_Accidents.ipynb
-```
-
-## 📌 Future Work
-
-* Include time series forecasting of accident rates
-* Integrate geospatial mapping (e.g., Folium)
-* Expand model to multi-class severity prediction
-* Automate insights using a dashboard (Power BI or Tableau)
-
-## 🙌 Contributors
-
-* Atharva Bakde
-* Samarth Naik
-
-
+- Threshold optimization to improve no-casualty recall
+- Gradient boosting models (XGBoost, LightGBM) for better imbalance handling
+- Geospatial mapping of accident hotspots (Folium)
+- Time series forecasting of accident rates by region
+- Interactive dashboard (Power BI or Tableau)
